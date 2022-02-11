@@ -31,15 +31,20 @@
 
         this.board.bars.push(this); //Agrega este elemento en el arreglo bars
         this.kind = "rectangle"; // para decirle al canvas que este elemento es un rectángulo
-        console.log("Hello ");
+        this.speed = 10;
     }
 
     self.Bar.prototype = {
         down: function(){
+            this.y += this.speed;
 
         },
         up: function(){
+            this.y -= this.speed;
 
+        },
+        toString: function(){
+            return "x: "+ this.x + "y: "+this.y ;
         }
     }
 
@@ -84,17 +89,39 @@
 
 })();
 
-window.addEventListener("load", main);
+document.addEventListener("keydown", function(ev)
+{
+    console.log(ev.keyCode);
+    if(ev.keyCode == 38)
+    {
+        bar1.up();
+        bar2.up();
+
+    }
+    else if (ev.keyCode == 40)
+    {
+        bar1.down();
+        bar2.down();
+
+    }
+
+    console.log(" bar1: "+bar1);
+});
+
+self.addEventListener("load", main);
+
+
+
 
 function main(){
 
-    var board = new Board(800,400);
     var canvas = document.getElementById('canvas');
+    var board = new Board(800,400);
     var board_view = new BoardView(canvas, board);
-    var bar = new Bar(20,100,40,100, board); 
-    var bar = new Bar(740,100,40,100, board); 
-
-    console.log(board);
+    
+    window.bar1 = new Bar(20,100,40,100, board); 
+    window.bar2 = new Bar(740,100,40,100, board);
+ //   document.createElement("")
     board_view.draw();
 
 }
